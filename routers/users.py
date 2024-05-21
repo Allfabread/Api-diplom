@@ -10,8 +10,8 @@ from sqlalchemy.orm import aliased
 import requests
 
 from security import hash_password, encode_jwt, decode_jwt, check_password
-from db import depends_db, UserRegister, UserOut, User, FreelancersCategory, Review,\
-    FreelancersOut, FreelancerInfo, Category, ProfileOut, UserCategory, UserReview, UsernameToChange, AvatarToChange, UserToVerify
+from db import depends_db, UserRegister, UserOut, User
+# from db import depends_db, UserRegister, UserOut, User, FreelancersCategory, Review, FreelancersOut, FreelancerInfo, Category, ProfileOut, UserCategory, UserReview, UsernameToChange, AvatarToChange, UserToVerify
 from helpers import get_user_by_token
 
 
