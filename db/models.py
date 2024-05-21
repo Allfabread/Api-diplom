@@ -13,6 +13,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(70), unique=True)
     hashed_password = Column(String(100))
+    created = Column(DateTime, default=datetime.now)
     balance = Column(Float, default=0)
 
 
