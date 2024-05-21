@@ -15,6 +15,10 @@ class User(Base):
     hashed_password = Column(String(100))
     balance = Column(Float, default=0)
 
+
+
+    
+
     
 # class Category(Base):
 #     __tablename__ = 'categories'
