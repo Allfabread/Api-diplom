@@ -13,6 +13,7 @@ class User(Base):
     username = Column(String(70), unique=True)
     hashed_password = Column(String(100))
     created = Column(DateTime, default=datetime.now)
+    verification = Column(Boolean, default=False)
 
 class Check(Base):
     __tablename__ = 'checks'

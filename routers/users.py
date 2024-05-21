@@ -31,7 +31,7 @@ def user_register(user: UserRegister, session=Depends(depends_db)):
     session.add(new_user)
     session.commit()
     session.refresh(new_user)
-    token = encode_jwt({'id': new_user.id})
+    token = encode_jwt({'id': new_user.id, 'verification': new_user.verification})
     return {'token': token}
 
 
