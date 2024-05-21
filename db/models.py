@@ -13,12 +13,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(70), unique=True)
     hashed_password = Column(String(100))
-    role = Column(Enum('customer', 'freelancer', 'admin', name='role_enum'))
-    about = Column(String(200), nullable=True)
     created = Column(DateTime, default=datetime.now)
-    last_seen = Column(DateTime, default=datetime.now)
-    avatar = Column(String(70), default="https://telegra.ph/file/d06a5bd7749a4fcff76b0.png")
-    verified = Column(Boolean, default=False)
     balance = Column(Float, default=0)
 
     
