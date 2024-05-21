@@ -20,27 +20,17 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/users/me')
 
 
 @users_router.post("/users/register")
-def user_register(user: UserRegister, session = Depends(depends_db)):
-    print(user.categories)
-    existing_user = session.query(User).filter(User.username==user.username).first()
+def user_register(user: UserRegister, session=Depends(depends_db)):
+    existing_user = session.query(User).filter(User.username == user.username).first()
     if existing_user:
         raise HTTPException(status_code=409, detail="Пользователь с таким логином уже существует")
     new_user = User(
-        username = user.username,
-        hashed_password = hash_password(user.password),
-        role = user.role
+        username=user.username,
+        hashed_password=hash_password(user.password),
     )
     session.add(new_user)
     session.commit()
     session.refresh(new_user)
-    if new_user.role == 'freelancer':
-        for category in user.categories:
-            users_category = FreelancersCategory(
-                freelancer_id = new_user.id,
-                category_id = category.id
-            )
-            session.add(users_category)
-    session.commit()
     token = encode_jwt({'id': new_user.id})
     return {'token': token}
 
