@@ -6,7 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-
 class User(Base):
     __tablename__ = 'users'
     
@@ -14,9 +13,14 @@ class User(Base):
     username = Column(String(70), unique=True)
     hashed_password = Column(String(100))
     created = Column(DateTime, default=datetime.now)
+
+class Check(Base):
+    __tablename__ = 'checks'
+    
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    currency = Column(String(100))
     balance = Column(Float, default=0)
-
-
 
     
 

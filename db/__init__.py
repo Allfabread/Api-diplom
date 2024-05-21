@@ -1,5 +1,5 @@
 # from .models import User, Category, Task, Review, Message, FreelancersCategory
-from .models import User
+from .models import User, Check
 from .pydantic_models import UserRegister, UserOut
 # from .pydantic_models import UserRegister, UserOut, TaskInfo, TasksOut, FreelancersOut, FreelancerInfo,\
 #     UserRegister, ProfileOut, UserCategory, UserReview, ReviewToCreate, MessageToSend, ConversationOut, MessageOut,\
