@@ -7,8 +7,8 @@ from .messages import messages_router
 
 __all__ = (
     'users_router',
-    'tasks_router',
-    'categories_router',
-    'reviews_router',
-    'messages_router'
+    # 'tasks_router',
+    # 'categories_router',
+    # 'reviews_router',
+    # 'messages_router'
 )
