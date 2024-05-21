@@ -16,5 +16,6 @@ app.add_middleware(
 
 
 # for router in (users_router, tasks_router, categories_router, reviews_router, messages_router):
-for router in (users_router):
-    app.include_router(router)
+#     app.include_router(router)
+
+app.include_router(users_router)
