@@ -199,6 +199,6 @@ def user_info(token: str = Depends(oauth2_scheme), session = Depends(depends_db)
 #         avg_rating=avg_rating,
 #         user_categories=[UserCategory(icon=c['icon'], name=c['name']) for c in user_categories],
 #         user_reviews=[UserReview(from_id=r['from_id'], from_avatar=r['from_avatar'], from_username=r['from_username'], date=r['date'], rating=r['rating'], content=r['content']) for r in user_reviews],
-#     )
+    # )
 
     return profile_info
