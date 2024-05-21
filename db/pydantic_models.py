@@ -146,7 +146,3 @@ class UserToVerify(BaseModel):
 class CategoryToAdd(BaseModel):
     name: str
     icon: str
-    
-
-
-    
