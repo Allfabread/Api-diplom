@@ -3,9 +3,9 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class Category(BaseModel):
-    id: int
-    name: str
+# class Category(BaseModel):
+#     id: int
+#     name: str
     
 
 class UserRegister(BaseModel):
