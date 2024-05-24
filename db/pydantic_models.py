@@ -3,11 +3,6 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-# class Category(BaseModel):
-#     id: int
-#     name: str
-    
-
 class UserRegister(BaseModel):
     username: str
     password: str
@@ -17,6 +12,43 @@ class UserOut(BaseModel):
     id: int
     username: str
     balance: float
+    
+    
+class CheckCreate(BaseModel):
+    name: str
+    currency: str
+    balance: float
+    color: str
+    image: str
+
+class TransactionCreate(BaseModel):
+    check_id: int
+    amount: float
+    transaction_type: str
+    category: str
+    timestamp: datetime
+    comment: str
+    
+class CheckInfo(BaseModel):
+    id: int
+    name: str
+    currency: str
+    balance: float
+    color: str
+    image: str
+
+class TransactionInfo(BaseModel):
+    id: int
+    check_id: int
+    amount: float
+    transaction_type: str
+    category: str
+    timestamp: datetime
+    comment: str
+
+class TransactionOut(BaseModel):
+    InfoTransaction: List[TransactionInfo]
+    InfoCheck: List[CheckInfo]
     
     
 # class TaskInfo(BaseModel):
@@ -46,20 +78,6 @@ class UserOut(BaseModel):
 #     title: str
 #     description: str
 #     category_id: int
-
-
-# class FreelancerInfo(BaseModel):
-#     id: int
-#     username: str
-#     avatar: str
-#     verified: bool
-#     rating: float | None
-#     categories: List[str]
-
-
-# class FreelancersOut(BaseModel):
-#     freelancers: List[FreelancerInfo]
-#     total_pages: int
 
 
 
@@ -135,8 +153,3 @@ class UserOut(BaseModel):
 
 # class UserToVerify(BaseModel):
 #     username: str
-
-
-# class CategoryToAdd(BaseModel):
-#     name: str
-#     icon: str

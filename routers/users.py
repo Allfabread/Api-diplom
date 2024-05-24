@@ -10,7 +10,7 @@ from sqlalchemy.orm import aliased
 import requests
 
 from security import hash_password, encode_jwt, decode_jwt, check_password
-from db import depends_db, UserRegister, UserOut, User
+from db import depends_db, UserRegister, UserOut, User, CheckInfo, TransactionInfo, TransactionOut, Check, Transaction
 # from db import depends_db, UserRegister, UserOut, User, FreelancersCategory, Review, FreelancersOut, FreelancerInfo, Category, ProfileOut, UserCategory, UserReview, UsernameToChange, AvatarToChange, UserToVerify
 from helpers import get_user_by_token
 
@@ -34,6 +34,57 @@ def user_register(user: UserRegister, session=Depends(depends_db)):
     token = encode_jwt({'id': new_user.id, 'verification': new_user.verification})
     return {'token': token}
 
+@users_router.get("/users/auth")
+def user_auth(username: str, password: str, session = Depends(depends_db)):
+    existing_user = session.query(User).filter(User.username==username).first()
+    if not existing_user:
+        raise HTTPException(status_code=401, detail="Неправильный логин или пароль")
+    if not check_password(password, existing_user.hashed_password):
+        raise HTTPException(status_code=401, detail="Неправильный логин или пароль")
+    token = encode_jwt({'id': existing_user.id, 'verification': existing_user.verification})
+    return {'token': token}
+
+
+@users_router.get("/users/home", response_model=TransactionOut)
+def get_user_info(token: str = Depends(oauth2_scheme), session = Depends(depends_db)):
+    user = get_user_by_token(token, session)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    checks = session.query(Check).filter(Check.user_id == user.id).all()
+    transactions = session.query(Transaction).filter(Transaction.user_id == user.id).all()
+
+    transaction_out = TransactionOut(
+        InfoTransaction=[TransactionInfo(
+            id = transaction.id,
+            check_id= transaction.check_id,
+            amount=transaction.amount,
+            transaction_type=transaction.transaction_type,
+            category=transaction.category,
+            timestamp=transaction.timestamp,
+            comment=transaction.comment
+        ) for transaction in transactions],
+        InfoCheck=[CheckInfo(
+            id=check.id,
+            name=check.name,
+            currency=check.currency,
+            balance=check.balance,
+            color=check.color,
+            image=check.image
+        ) for check in checks]
+    )
+
+    return transaction_out
+
+
+    
+
+
+
+
+
+
+
 
 # @users_router.post("/users/changeUsername")
 # def change_username(data: UsernameToChange, token: str = Depends(oauth2_scheme), session = Depends(depends_db)):
@@ -55,21 +106,6 @@ def user_register(user: UserRegister, session=Depends(depends_db)):
 #     session.commit()
 #     return {'message': 'success'}
 
-
-@users_router.get("/users/auth")
-def user_auth(username: str, password: str, session = Depends(depends_db)):
-    existing_user = session.query(User).filter(User.username==username).first()
-    if not existing_user:
-        raise HTTPException(status_code=401, detail="Неправильный логин или пароль")
-    if not check_password(password, existing_user.hashed_password):
-        raise HTTPException(status_code=401, detail="Неправильный логин или пароль")
-    token = encode_jwt({'id': existing_user.id})
-    return {'token': token}
-
-
-@users_router.get("/users/me", response_model=UserOut)
-def user_info(token: str = Depends(oauth2_scheme), session = Depends(depends_db)):
-    return get_user_by_token(token, session)
 
 
 # @users_router.get("/users/role")
